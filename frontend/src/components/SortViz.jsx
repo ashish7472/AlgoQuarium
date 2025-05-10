@@ -4,7 +4,8 @@ function SortViz({ algorithm }) {
   const canvasRef = useRef(null);
   const [array, setArray] = useState([]);
   const [isSorting, setIsSorting] = useState(false);
-  const [speed, setSpeed] = useState(100);
+  const [speed, setSpeed] = useState(245); // Adjusted default to middle of range
+
   const [size, setSize] = useState(20);
 
   const canvasWidth = 800;
@@ -26,15 +27,47 @@ function SortViz({ algorithm }) {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    // Set canvas background
-    ctx.fillStyle = '#ffffff';
+    // Create gradient background
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
+    gradient.addColorStop(0, '#1e2a44');
+    gradient.addColorStop(1, '#2c3e50');
+    ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    // Draw subtle grid
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.lineWidth = 0.5;
+
+    // Vertical grid lines
     const barWidth = canvasWidth / arr.length;
+    for (let x = 0; x <= canvasWidth; x += barWidth * 2) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvasHeight);
+      ctx.stroke();
+    }
+
+    // Horizontal grid lines
+    for (let y = 0; y <= canvasHeight; y += 50) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvasWidth, y);
+      ctx.stroke();
+    }
+
+    // Draw bars
     arr.forEach((value, idx) => {
       ctx.fillStyle = highlightIndices.includes(idx) ? '#4a90e2' : '#b0b8c4';
       ctx.fillRect(idx * barWidth, canvasHeight - value, barWidth - 2, value);
     });
+  };
+
+  // Calculate delay from speed (inverse relationship)
+  const getDelayFromSpeed = (speedValue) => {
+    const minDelay = 10; // Fastest (when speed is max)
+    const maxDelay = 500; // Slowest (when speed is min)
+    // Map speed (10 to 500) to delay (500 to 10)
+    return maxDelay - ((speedValue - 10) * (maxDelay - minDelay)) / (500 - 10);
   };
 
   // Bubble Sort implementation
@@ -47,7 +80,7 @@ function SortViz({ algorithm }) {
           [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
           setArray([...arr]);
           drawArray(arr, [j, j + 1]);
-          await new Promise((resolve) => setTimeout(resolve, speed));
+          await new Promise((resolve) => setTimeout(resolve, getDelayFromSpeed(speed)));
         }
       }
     }
@@ -61,7 +94,7 @@ function SortViz({ algorithm }) {
 
   return (
     <div className="flex flex-col items-center">
-      <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className="border border-[#3b4a6b] bg-white mb-4 rounded-lg shadow-md"></canvas>
+      <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className="border border-[#3b4a6b] mb-4 rounded-lg shadow-md"></canvas>
       <div className="flex space-x-4 mb-4">
         <button
           onClick={resetArray}
@@ -80,7 +113,7 @@ function SortViz({ algorithm }) {
       </div>
       <div className="flex space-x-4">
         <div>
-          <label className="block mb-1 text-[#b0b8c4]">Speed (ms):</label>
+          <label className="block mb-1 text-[#b0b8c4]">Speed:</label>
           <input
             type="range"
             min="10"
