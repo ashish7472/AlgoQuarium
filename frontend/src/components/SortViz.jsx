@@ -32,7 +32,7 @@ function SortViz({ algorithm }) {
 
     const barWidth = canvasWidth / arr.length;
     arr.forEach((value, idx) => {
-      ctx.fillStyle = highlightIndices.includes(idx) ? '#ff6b6b' : '#4ecdc4';
+      ctx.fillStyle = highlightIndices.includes(idx) ? '#4a90e2' : '#b0b8c4';
       ctx.fillRect(idx * barWidth, canvasHeight - value, barWidth - 2, value);
     });
   };
@@ -61,26 +61,26 @@ function SortViz({ algorithm }) {
 
   return (
     <div className="flex flex-col items-center">
-      <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className="border border-gray-300 dark:border-gray-600 bg-white mb-4 rounded-lg shadow-md"></canvas>
+      <canvas ref={canvasRef} width={canvasWidth} height={canvasHeight} className="border border-[#3b4a6b] bg-white mb-4 rounded-lg shadow-md"></canvas>
       <div className="flex space-x-4 mb-4">
         <button
           onClick={resetArray}
           disabled={isSorting}
-          className="px-4 py-2 bg-primary dark:bg-darkPrimary text-white rounded-lg hover:bg-opacity-80 transition disabled:opacity-50 shadow-md"
+          className="px-4 py-2 bg-[#4a90e2] text-white rounded-lg hover:bg-[#357abd] transition disabled:opacity-50 shadow-md"
         >
           Reset Array
         </button>
         <button
           onClick={bubbleSort}
           disabled={isSorting}
-          className="px-4 py-2 bg-primary dark:bg-darkPrimary text-white rounded-lg hover:bg-opacity-80 transition disabled:opacity-50 shadow-md"
+          className="px-4 py-2 bg-[#4a90e2] text-white rounded-lg hover:bg-[#357abd] transition disabled:opacity-50 shadow-md"
         >
           Start Sorting
         </button>
       </div>
       <div className="flex space-x-4">
         <div>
-          <label className="block mb-1 text-gray-700 dark:text-gray-300">Speed (ms):</label>
+          <label className="block mb-1 text-[#b0b8c4]">Speed (ms):</label>
           <input
             type="range"
             min="10"
@@ -88,11 +88,11 @@ function SortViz({ algorithm }) {
             value={speed}
             onChange={(e) => setSpeed(Number(e.target.value))}
             disabled={isSorting}
-            className="w-40 accent-primary dark:accent-darkPrimary"
+            className="w-40 accent-[#4a90e2]"
           />
         </div>
         <div>
-          <label className="block mb-1 text-gray-700 dark:text-gray-300">Array Size:</label>
+          <label className="block mb-1 text-[#b0b8c4]">Array Size:</label>
           <input
             type="range"
             min="10"
@@ -100,7 +100,7 @@ function SortViz({ algorithm }) {
             value={size}
             onChange={(e) => setSize(Number(e.target.value))}
             disabled={isSorting}
-            className="w-40 accent-primary dark:accent-darkPrimary"
+            className="w-40 accent-[#4a90e2]"
           />
         </div>
       </div>
