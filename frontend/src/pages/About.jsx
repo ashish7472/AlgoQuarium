@@ -7,7 +7,7 @@ function About() {
           This project is a showcase of data structures and algorithms visualizations, built to demonstrate my skills in web development and algorithm design.
         </p>
         <p className="text-[#b0b8c4] mb-4">
-          Created by [Your Name], this site aims to help learners understand complex concepts through interactive and visually appealing animations.
+          Created by Ashish Rolan, this site aims to help learners understand complex concepts through interactive and visually appealing animations.
         </p>
         <p className="text-[#b0b8c4]">
           Built with React, Tailwind CSS, and Canvas API. Feel free to explore and provide feedback!
