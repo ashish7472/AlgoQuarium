@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import SortViz from '../components/SortViz';
+import TreeViz from '../components/TreeViz'; // Import TreeViz for tree traversals
 import CodeBlock from '../components/CodeBlock';
 
 function Visualization() {
@@ -118,6 +119,28 @@ void quickSort(vector<int>& arr, int low, int high) {
     }
 }`
     },
+    'bfs-tree': {
+      title: 'Breadth-First Search (BFS)',
+      description: 'A tree traversal algorithm that explores all nodes at the current depth before moving to the next depth level.',
+      complexity: 'Time: O(V + E), Space: O(V), where V is the number of vertices and E is the number of edges',
+      code: `vector<int> bfs(TreeNode* root) {
+    if (!root) return {};
+    
+    vector<int> result;
+    queue<TreeNode*> q;
+    q.push(root);
+    
+    while (!q.empty()) {
+        TreeNode* node = q.front();
+        q.pop();
+        result.push_back(node->val);
+        
+        if (node->left) q.push(node->left);
+        if (node->right) q.push(node->right);
+    }
+    return result;
+}`
+    },
   };
 
   const details = algorithmDetails[algo] || { 
@@ -128,15 +151,16 @@ void quickSort(vector<int>& arr, int low, int high) {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-4xl font-bold text-center mb-4 text-white">{details.title}</h1>
-      <div className="bg-[#2c3e50] rounded-lg shadow-lg p-6 mb-6 max-w-3xl mx-auto border border-[#3b4a6b]">
-        <p className="text-[#b0b8c4] mb-2">{details.description}</p>
-        <p className="text-[#b0b8c4]"><strong>Complexity:</strong> {details.complexity}</p>
+    <div className="container mx-auto p-4 md:p-6">
+      <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 text-white">{details.title}</h1>
+      <div className="bg-[#2c3e50] rounded-lg shadow-lg p-4 md:p-6 mb-6 max-w-3xl mx-auto border border-[#3b4a6b]">
+        <p className="text-[#b0b8c4] mb-2 text-sm md:text-base">{details.description}</p>
+        <p className="text-[#b0b8c4] text-sm md:text-base"><strong>Complexity:</strong> {details.complexity}</p>
       </div>
-      <div className="flex flex-col md:flex-row gap-6">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6">
         <div className="md:w-3/5">
           {['bubble-sort', 'selection-sort', 'insertion-sort', 'merge-sort', 'quick-sort'].includes(algo) && <SortViz algorithm={algo} />}
+          {['bfs-tree'].includes(algo) && <TreeViz algorithm={algo} />}
         </div>
         <div className="md:w-2/5">
           <CodeBlock code={details.code} />

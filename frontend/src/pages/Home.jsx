@@ -1,7 +1,7 @@
 import AlgoCard from '../components/AlgoCard';
 
 function Home() {
-  const algorithms = [
+  const algorithms_Sorting = [
     {
       title: 'Bubble Sort',
       description: 'A simple sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order.',
@@ -29,12 +29,29 @@ function Home() {
     },
   ];
 
+  const algorithms_Tree = [
+    {
+      title: 'Breadth-First Search (BFS) for Tree',
+      description: 'A tree traversal algorithm that explores all nodes at the current depth before moving to the next depth level.',
+      link: '/visualization/bfs-tree',
+    },
+  ]
+
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-4xl font-bold text-center mb-8 text-white">Data Structures & Algorithms Visualization</h1>
-      <h2 className="text-2xl font-bold mb-4 text-white">Sorting Algorithms</h2>
+      {/* Sorting Algo */}
+      <h2 className="text-2xl font-bold mb-4 text-[#4a90e2]">Sorting Algorithms</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {algorithms.map((algo, index) => (
+        {algorithms_Sorting.map((algo, index) => (
+          <AlgoCard key={index} title={algo.title} description={algo.description} link={algo.link} />
+        ))}
+      </div>
+      
+      {/* Tree Traversal */}
+      <h2 className="text-2xl font-bold mb-4 mt-6 text-[#4a90e2]">Tree Traversal Algorithms</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {algorithms_Tree.map((algo, index) => (
           <AlgoCard key={index} title={algo.title} description={algo.description} link={algo.link} />
         ))}
       </div>
