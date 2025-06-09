@@ -32,11 +32,11 @@ function Home() {
   const algorithms_Tree = [
     {
       title: 'Breadth-First Search (BFS) for Tree',
-      description: 'A tree traversal algorithm that explores all nodes at the current depth before moving to the next depth level.',
+      description: 'A tree traversal algorithm that explores all nodes at the current depth level before moving to the next depth level.',
       link: '/visualization/bfs-tree',
     },
 
-    // DFS algorithms
+    // DFS algorithms of tree traversal
     {
       title: 'Pre-order Traversal - DFS',
       description: 'A depth-first traversal method where the root node is processed first, followed by the left subtree, then the right subtree.',
@@ -52,7 +52,20 @@ function Home() {
       description: 'A depth-first traversal method where the left subtree is processed first, then the right subtree, and finally the root node.',
       link: '/visualization/postorder-traversal',
     },
-  ]
+  ];
+
+  const algorithms_Graph = [
+    {
+      title: 'Breadth-First Search (BFS) for Graph',
+      description: 'A graph traversal algorithm that explores all vertices at the present depth prior to moving on to the vertices at the next depth level.',
+      link: '/visualization/bfs-graph',
+    },
+    {
+      title: 'Depth-First Search (DFS) for Graph',
+      description: 'A graph traversal algorithm that explores as far as possible along each branch of graph before backtracking.',
+      link: '/visualization/dfs-graph',
+    }
+  ];
 
   return (
     <div className="container mx-auto p-6">
@@ -69,6 +82,14 @@ function Home() {
       <h2 className="text-2xl font-bold mb-4 mt-6 text-[#4a90e2]">Tree Traversal Algorithms</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {algorithms_Tree.map((algo, index) => (
+          <AlgoCard key={index} title={algo.title} description={algo.description} link={algo.link} />
+        ))}
+      </div>
+
+      {/* Graph Traversal */}
+      <h2 className="text-2xl font-bold mb-4 mt-6 text-[#4a90e2]">Graph Traversal Algorithms</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {algorithms_Graph.map((algo, index) => (
           <AlgoCard key={index} title={algo.title} description={algo.description} link={algo.link} />
         ))}
       </div>

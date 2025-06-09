@@ -1,12 +1,15 @@
 import { useParams } from 'react-router-dom';
 import SortViz from '../components/SortViz';
 import TreeViz from '../components/TreeViz';
+import GraphViz from '../components/GraphViz';
 import CodeBlock from '../components/CodeBlock';
 
 function Visualization() {
   const { algo } = useParams();
 
   const algorithmDetails = {
+
+    // Sorting Algorithms
     'bubble-sort': {
       title: 'Bubble Sort',
       description: 'A simple sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order.',
@@ -119,6 +122,8 @@ void quickSort(vector<int>& arr, int low, int high) {
     }
 }`
     },
+
+    // Tree Algorithms
     'bfs-tree': {
       title: 'Breadth-First Search (BFS)',
       description: 'A tree traversal algorithm that explores all nodes at the current depth before moving to the next depth level.',
@@ -177,6 +182,54 @@ void quickSort(vector<int>& arr, int low, int high) {
     }
 }`
     },
+
+    // Graph Algorithms
+    'bfs-graph': {
+      title: 'Breadth-First Search (BFS) for Graph',
+      description: 'A graph traversal algorithm that explores all vertices at the present depth prior to moving on to the vertices at the next depth level.',
+      complexity: 'Time: O(V + E), Space: O(V), where V is the number of vertices and E is the number of edges',
+      code: `vector<int> bfsGraph(Graph& graph, int start) {
+    vector<int> result;
+    vector<bool> visited(graph.size(), false);
+    queue<int> q;
+    q.push(start);
+    visited[start] = true;
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        result.push_back(node);
+        
+        for (int neighbor : graph[node]) {
+            if (!visited[neighbor]) {
+                visited[neighbor] = true;
+                q.push(neighbor);
+            }
+        }
+    }
+    return result;
+}`
+    },
+    'dfs-graph': {
+      title: 'Depth-First Search (DFS) for Graph',
+      description: 'A graph traversal algorithm that explores as far as possible along each branch before backtracking.',
+      complexity: 'Time: O(V + E), Space: O(V), where V is the number of vertices and E is the number of edges',
+      code: `void dfsGraph(Graph& graph, int node, vector<bool>& visited, vector<int>& result) {
+    visited[node] = true;
+    result.push_back(node);
+    for (int neighbor : graph[node]) {
+        if (!visited[neighbor]) {
+            dfsGraph(graph, neighbor, visited, result);
+        }
+    }
+}
+vector<int> dfs(Graph& graph, int start) {
+    vector<bool> visited(graph.size(), false);
+    vector<int> result;
+    dfsGraph(graph, start, visited, result);
+    
+    return result;
+}`
+    }
   };
 
   const details = algorithmDetails[algo] || { 
@@ -196,7 +249,10 @@ void quickSort(vector<int>& arr, int low, int high) {
       <div className="flex flex-col md:flex-row gap-4 md:gap-6">
         <div className="md:w-3/5">
           {['bubble-sort', 'selection-sort', 'insertion-sort', 'merge-sort', 'quick-sort'].includes(algo) && <SortViz algorithm={algo} />}
+
           {['bfs-tree', 'preorder-traversal', 'inorder-traversal', 'postorder-traversal'].includes(algo) && <TreeViz algorithm={algo} />}
+
+          {['bfs-graph', 'dfs-graph'].includes(algo) && <GraphViz algorithm={algo} />}
         </div>
         <div className="md:w-2/5">
           <CodeBlock code={details.code} />
