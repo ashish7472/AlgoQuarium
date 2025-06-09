@@ -229,6 +229,39 @@ vector<int> dfs(Graph& graph, int start) {
     
     return result;
 }`
+    },
+    'topological-sort': {
+      title: 'Topological Sort',
+      description: 'A linear ordering of vertices in a directed acyclic graph (DAG) such that for every directed edge u -> v, vertex u comes before v in the ordering.',
+      complexity: 'Time: O(V + E), Space: O(V), where V is the number of vertices and E is the number of edges',
+      code: `vector<int> topologicalSort(Graph& graph) {
+    vector<int> inDegree(graph.size(), 0);
+    for (const auto& edges : graph) {
+        for (int neighbor : edges) {
+            inDegree[neighbor]++;
+        }
+    }
+    queue<int> q;
+    for (int i = 0; i < graph.size(); i++) {
+        if (inDegree[i] == 0) {
+            q.push(i);
+        }
+    }
+    vector<int> result;
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        result.push_back(node);
+        
+        for (int neighbor : graph[node]) {
+            inDegree[neighbor]--;
+            if (inDegree[neighbor] == 0) {
+                q.push(neighbor);
+            }
+        }
+    }
+    return result;
+}`
     }
   };
 
@@ -252,7 +285,7 @@ vector<int> dfs(Graph& graph, int start) {
 
           {['bfs-tree', 'preorder-traversal', 'inorder-traversal', 'postorder-traversal'].includes(algo) && <TreeViz algorithm={algo} />}
 
-          {['bfs-graph', 'dfs-graph'].includes(algo) && <GraphViz algorithm={algo} />}
+          {['bfs-graph', 'dfs-graph', 'topological-sort'].includes(algo) && <GraphViz algorithm={algo} />}
         </div>
         <div className="md:w-2/5">
           <CodeBlock code={details.code} />

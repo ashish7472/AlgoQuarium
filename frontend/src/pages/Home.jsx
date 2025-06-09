@@ -64,7 +64,12 @@ function Home() {
       title: 'Depth-First Search (DFS) for Graph',
       description: 'A graph traversal algorithm that explores as far as possible along each branch of graph before backtracking.',
       link: '/visualization/dfs-graph',
-    }
+    },
+    {
+      title: 'Topological Sort - Kahn\'s Algorithm',
+      description: 'A linear ordering of vertices in a directed acyclic graph (DAG) such that for every directed edge u -> v, vertex u comes before v in the ordering.',
+      link: '/visualization/topological-sort',
+    },
   ];
 
   return (
