@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import SearchViz from '../components/SearchViz';
 import SortViz from '../components/SortViz';
 import TreeViz from '../components/TreeViz';
 import GraphViz from '../components/GraphViz';
@@ -8,6 +9,40 @@ function Visualization() {
   const { algo } = useParams();
 
   const algorithmDetails = {
+
+    // Searching Algorithms
+    'linear-search': {
+      title: 'Linear Search',
+      description: 'A simple search algorithm that checks every element in the list until the target is found or the list ends.',
+      complexity: 'Time: O(n), Space: O(1)',
+      code: `int linearSearch(vector<int>& arr, int target) {
+    for (int i = 0; i < arr.size(); i++) {
+        if (arr[i] == target) {
+            return i; // Target found
+        }
+    }
+    return -1; // Target not found
+}`
+    },
+    'binary-search': {
+      title: 'Binary Search',
+      description: 'An efficient search algorithm that finds the position of a target value within a sorted array by repeatedly dividing the search interval in half.',
+      complexity: 'Time: O(log n), Space: O(1)',
+      code: `int binarySearch(vector<int>& arr, int target) {
+    int left = 0, right = arr.size() - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2; // Avoids overflow
+        if (arr[mid] == target) {
+            return mid; // Target found
+        } else if (arr[mid] < target) {
+            left = mid + 1; // Search in the right half
+        } else {
+            right = mid - 1; // Search in the left half
+        }
+    }
+    return -1; // Target not found
+}`
+    },
 
     // Sorting Algorithms
     'bubble-sort': {
@@ -262,7 +297,35 @@ vector<int> dfs(Graph& graph, int start) {
     }
     return result;
 }`
+    },
+    // Dijkstra's Algorithm - Shortest Path in Graph
+    'dijkstra': {
+      title: 'Dijkstra\'s Algorithm',
+      description: 'An algorithm for finding the shortest paths between nodes in a graph, which may represent, for example, road networks.',
+      complexity: 'Time: O((V + E) log V), Space: O(V), where V is the number of vertices and E is the number of edges',
+      code: `vector<int> dijkstra(Graph& graph, int start) {
+    vector<int> dist(graph.size(), INT_MAX);
+    dist[start] = 0;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0, start});
+    while (!pq.empty()) {
+        int d = pq.top().first;
+        int node = pq.top().second;
+        pq.pop();
+        
+        if (d > dist[node]) continue;
+        
+        for (int neighbor : graph[node]) {
+            int newDist = d + 1; // Assuming all edges have weight 1
+            if (newDist < dist[neighbor]) {
+                dist[neighbor] = newDist;
+                pq.push({newDist, neighbor});
+            }
+        }
     }
+    return dist;
+}`
+    },
   };
 
   const details = algorithmDetails[algo] || { 
@@ -281,11 +344,13 @@ vector<int> dfs(Graph& graph, int start) {
       </div>
       <div className="flex flex-col md:flex-row gap-4 md:gap-6">
         <div className="md:w-3/5">
+          {['linear-search', 'binary-search'].includes(algo) && <SearchViz algorithm={algo} />}
+
           {['bubble-sort', 'selection-sort', 'insertion-sort', 'merge-sort', 'quick-sort'].includes(algo) && <SortViz algorithm={algo} />}
 
           {['bfs-tree', 'preorder-traversal', 'inorder-traversal', 'postorder-traversal'].includes(algo) && <TreeViz algorithm={algo} />}
 
-          {['bfs-graph', 'dfs-graph', 'topological-sort'].includes(algo) && <GraphViz algorithm={algo} />}
+          {['bfs-graph', 'dfs-graph', 'topological-sort', 'dijkstra'].includes(algo) && <GraphViz algorithm={algo} />}
         </div>
         <div className="md:w-2/5">
           <CodeBlock code={details.code} />

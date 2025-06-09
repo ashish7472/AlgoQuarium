@@ -1,6 +1,19 @@
 import AlgoCard from '../components/AlgoCard';
 
 function Home() {
+  const algorithms_Searching = [
+    {
+      title: 'Linear Search',
+      description: 'A simple search algorithm that checks every element in the list until the desired element is found or the list ends.',
+      link: '/visualization/linear-search',
+    },
+    {
+      title: 'Binary Search',
+      description: 'An efficient search algorithm that finds the position of a target value within a sorted array by repeatedly dividing the search interval in half.',
+      link: '/visualization/binary-search',
+    },
+  ];
+
   const algorithms_Sorting = [
     {
       title: 'Bubble Sort',
@@ -70,11 +83,25 @@ function Home() {
       description: 'A linear ordering of vertices in a directed acyclic graph (DAG) such that for every directed edge u -> v, vertex u comes before v in the ordering.',
       link: '/visualization/topological-sort',
     },
+    {
+      title: 'Dijkstra\'s Algorithm',
+      description: 'An algorithm for finding the shortest paths between nodes in a graph, which may represent, for example, road networks.',
+      link: '/visualization/dijkstra',
+    },
   ];
 
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-4xl font-bold text-center mb-8 text-white">Data Structures & Algorithms Visualization</h1>
+      {/* Searching Algo */}
+      <h2 className="text-2xl font-bold mb-4 text-[#4a90e2]">Searching Algorithms</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {algorithms_Searching.map((algo, index) => (
+          <AlgoCard key={index} title={algo.title} description={algo.description} link={algo.link} />
+        ))}
+      </div>
+      <hr className="my-8 border-gray-600" />
+
       {/* Sorting Algo */}
       <h2 className="text-2xl font-bold mb-4 text-[#4a90e2]">Sorting Algorithms</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -82,6 +109,7 @@ function Home() {
           <AlgoCard key={index} title={algo.title} description={algo.description} link={algo.link} />
         ))}
       </div>
+      <hr className="my-8 border-gray-600" />
       
       {/* Tree Traversal */}
       <h2 className="text-2xl font-bold mb-4 mt-6 text-[#4a90e2]">Tree Traversal Algorithms</h2>
@@ -90,6 +118,7 @@ function Home() {
           <AlgoCard key={index} title={algo.title} description={algo.description} link={algo.link} />
         ))}
       </div>
+      <hr className="my-8 border-gray-600" />
 
       {/* Graph Traversal */}
       <h2 className="text-2xl font-bold mb-4 mt-6 text-[#4a90e2]">Graph Traversal Algorithms</h2>
@@ -98,6 +127,8 @@ function Home() {
           <AlgoCard key={index} title={algo.title} description={algo.description} link={algo.link} />
         ))}
       </div>
+      <hr className="my-8 border-gray-600" />
+
     </div>
   );
 }
