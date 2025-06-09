@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import SortViz from '../components/SortViz';
-import TreeViz from '../components/TreeViz'; // Import TreeViz for tree traversals
+import TreeViz from '../components/TreeViz';
 import CodeBlock from '../components/CodeBlock';
 
 function Visualization() {
@@ -141,6 +141,42 @@ void quickSort(vector<int>& arr, int low, int high) {
     return result;
 }`
     },
+    'preorder-traversal': {
+      title: 'Pre-order Traversal - DFS',
+      description: 'A depth-first traversal method where the root node is processed first, followed by the left subtree, then the right subtree.',
+      complexity: 'Time: O(n), Space: O(h), where n is the number of nodes and h is the height of the tree',
+      code: `void preorder(TreeNode* root) {
+    if (root){
+      cout<<root->val<<" ";
+      preorder(root->left);  
+      preorder(root->right);
+    }
+}`
+    },
+    'inorder-traversal': {
+      title: 'In-order Traversal - DFS',
+      description: 'A depth-first traversal method where the left subtree is processed first, then the root node, and finally the right subtree.',
+      complexity: 'Time: O(n), Space: O(h), where n is the number of nodes and h is the height of the tree',
+      code: `void inorder(TreeNode* root) {
+    if (root){
+      inorder(root->left);
+      cout<<root->val<<" ";
+      inorder(root->right);
+    }
+}`
+    },
+    'postorder-traversal': {
+      title: 'Post-order Traversal - DFS',
+      description: 'A depth-first traversal method where the left subtree is processed first, then the right subtree, and finally the root node.',
+      complexity: 'Time: O(n), Space: O(h), where n is the number of nodes and h is the height of the tree',
+      code: `void postorder(TreeNode* root) {
+    if (root){
+      postorder(root->left);
+      postorder(root->right);
+      cout<<root->val<<" ";
+    }
+}`
+    },
   };
 
   const details = algorithmDetails[algo] || { 
@@ -160,7 +196,7 @@ void quickSort(vector<int>& arr, int low, int high) {
       <div className="flex flex-col md:flex-row gap-4 md:gap-6">
         <div className="md:w-3/5">
           {['bubble-sort', 'selection-sort', 'insertion-sort', 'merge-sort', 'quick-sort'].includes(algo) && <SortViz algorithm={algo} />}
-          {['bfs-tree'].includes(algo) && <TreeViz algorithm={algo} />}
+          {['bfs-tree', 'preorder-traversal', 'inorder-traversal', 'postorder-traversal'].includes(algo) && <TreeViz algorithm={algo} />}
         </div>
         <div className="md:w-2/5">
           <CodeBlock code={details.code} />

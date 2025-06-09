@@ -35,6 +35,23 @@ function Home() {
       description: 'A tree traversal algorithm that explores all nodes at the current depth before moving to the next depth level.',
       link: '/visualization/bfs-tree',
     },
+
+    // DFS algorithms
+    {
+      title: 'Pre-order Traversal - DFS',
+      description: 'A depth-first traversal method where the root node is processed first, followed by the left subtree, then the right subtree.',
+      link: '/visualization/preorder-traversal',
+    },
+    {
+      title: 'In-order Traversal - DFS',
+      description: 'A depth-first traversal method where the left subtree is processed first, then the root node, and finally the right subtree.',
+      link: '/visualization/inorder-traversal',
+    },
+    {
+      title: 'Post-order Traversal - DFS',
+      description: 'A depth-first traversal method where the left subtree is processed first, then the right subtree, and finally the root node.',
+      link: '/visualization/postorder-traversal',
+    },
   ]
 
   return (

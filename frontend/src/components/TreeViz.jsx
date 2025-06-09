@@ -8,8 +8,8 @@ function TreeViz({ algorithm }) {
   const [speed, setSpeed] = useState(245);
   const [depth, setDepth] = useState(3);
   const [traversalOrder, setTraversalOrder] = useState([]);
-  const [queue, setQueue] = useState([]);
-  const [bfsQueue, setBfsQueue] = useState([]); // Store BFS queue for resuming
+  const [queue, setQueue] = useState([]); // For BFS queue display
+  const [traversalNodes, setTraversalNodes] = useState([]); // Unified state for nodes to process (queue for BFS, generator output for DFS)
   const [currentResult, setCurrentResult] = useState([]); // Store traversal order for resuming
   const [lastHighlightedNode, setLastHighlightedNode] = useState(null); // Store last highlighted node
 
@@ -159,36 +159,36 @@ function TreeViz({ algorithm }) {
     setIsTraversing(true);
     stopRef.current = false;
 
-    let q = startFresh ? [tree] : [...bfsQueue]; // Use stored queue if resuming
-    let result = startFresh ? [] : [...currentResult]; // Use stored result if resuming
+    let nodesToProcess = startFresh ? [tree] : [...traversalNodes]; // Use unified state
+    let result = startFresh ? [] : [...currentResult];
 
     if (startFresh) {
       setTraversalOrder([]);
       setQueue([]);
     }
 
-    setQueue([...q.map(node => node.val)]);
+    setQueue([...nodesToProcess.map(node => node.val)]);
 
-    while (q.length > 0) {
+    while (nodesToProcess.length > 0) {
       if (stopRef.current) {
-        setBfsQueue([...q]); // Store the current queue for resuming
-        setCurrentResult([...result]); // Store the current result for resuming
+        setTraversalNodes([...nodesToProcess]);
+        setCurrentResult([...result]);
         setIsTraversing(false);
         return;
       }
 
-      const node = q.shift();
+      const node = nodesToProcess.shift();
       result.push(node.val);
       setTraversalOrder([...result]);
-      setLastHighlightedNode(node); // Store the last highlighted node
+      setLastHighlightedNode(node);
       drawTree(tree, node);
-      setQueue([...q.map(n => n.val)]);
+      setQueue([...nodesToProcess.map(n => n.val)]);
 
-      if (node.left) q.push(node.left);
-      if (node.right) q.push(node.right);
+      if (node.left) nodesToProcess.push(node.left);
+      if (node.right) nodesToProcess.push(node.right);
 
       if (node.left || node.right) {
-        setQueue([...q.map(n => n.val)]);
+        setQueue([...nodesToProcess.map(n => n.val)]);
       }
 
       await new Promise((resolve) => setTimeout(resolve, getDelayFromSpeed(speed)));
@@ -196,16 +196,87 @@ function TreeViz({ algorithm }) {
 
     setIsTraversing(false);
     setQueue([]);
-    setBfsQueue([]); // Clear stored queue
-    setCurrentResult([]); // Clear stored result
-    setLastHighlightedNode(null); // Clear highlighted node
-    drawTree(tree); // Clear highlight if traversal completed naturally
+    setTraversalNodes([]);
+    setCurrentResult([]);
+    setLastHighlightedNode(null);
+    drawTree(tree);
   };
 
-  // Start or resume traversal
+  // Generator for Pre-order Traversal (Root -> Left -> Right)
+  function* preorderGenerator(root) {
+    if (!root) return;
+    yield root;
+    yield* preorderGenerator(root.left);
+    yield* preorderGenerator(root.right);
+  }
+
+  // Generator for In-order Traversal (Left -> Root -> Right)
+  function* inorderGenerator(root) {
+    if (!root) return;
+    yield* inorderGenerator(root.left);
+    yield root;
+    yield* inorderGenerator(root.right);
+  }
+
+  // Generator for Post-order Traversal (Left -> Right -> Root)
+  function* postorderGenerator(root) {
+    if (!root) return;
+    yield* postorderGenerator(root.left);
+    yield* postorderGenerator(root.right);
+    yield root;
+  }
+
+  // Generic DFS traversal with visualization and stop
+  const runDfs = async (startFresh = true, generatorFunc) => {
+    if (!tree) return;
+
+    setIsTraversing(true);
+    stopRef.current = false;
+
+    // If starting fresh, create a new generator and convert to array
+    let nodesToProcess = startFresh ? Array.from(generatorFunc(tree)) : [...traversalNodes];
+    let result = startFresh ? [] : [...currentResult];
+
+    if (startFresh) {
+      setTraversalOrder([]);
+    }
+
+    while (nodesToProcess.length > 0) {
+      if (stopRef.current) {
+        setTraversalNodes([...nodesToProcess]);
+        setCurrentResult([...result]);
+        setIsTraversing(false);
+        return;
+      }
+
+      const node = nodesToProcess.shift();
+      result.push(node.val);
+      setTraversalOrder([...result]);
+      setLastHighlightedNode(node);
+      drawTree(tree, node);
+
+      await new Promise((resolve) => setTimeout(resolve, getDelayFromSpeed(speed)));
+    }
+
+    setIsTraversing(false);
+    setTraversalNodes([]);
+    setCurrentResult([]);
+    setLastHighlightedNode(null);
+    drawTree(tree);
+  };
+
+  // Start or resume traversal based on algorithm
   const startOrResumeTraversal = () => {
-    const shouldResume = bfsQueue.length > 0; // Check if there's a paused traversal
-    runBfs(!shouldResume); // Start fresh if no paused traversal, otherwise resume
+    const shouldResume = traversalNodes.length > 0;
+    if (algorithm === 'bfs-tree') {
+      runBfs(!shouldResume);
+    } else if (algorithm === 'preorder-traversal') {
+      runDfs(!shouldResume, preorderGenerator);
+    } else if (algorithm === 'inorder-traversal') {
+      runDfs(!shouldResume, inorderGenerator);
+    } else if (algorithm === 'postorder-traversal') {
+      runDfs(!shouldResume, postorderGenerator);
+    }
   };
 
   // Stop the traversal
@@ -220,11 +291,11 @@ function TreeViz({ algorithm }) {
     setTree(newTree);
     setTraversalOrder([]);
     setQueue([]);
-    setBfsQueue([]);
+    setTraversalNodes([]);
     setCurrentResult([]);
     setLastHighlightedNode(null);
     stopRef.current = false;
-    setIsTraversing(false); // Ensure traversal is stopped
+    setIsTraversing(false);
   };
 
   useEffect(() => {
@@ -233,7 +304,7 @@ function TreeViz({ algorithm }) {
 
   useEffect(() => {
     if (tree && !isTraversing) {
-      drawTree(tree, lastHighlightedNode); // Redraw with last highlighted node if stopped
+      drawTree(tree, lastHighlightedNode);
     }
   }, [tree, lastHighlightedNode]);
 
@@ -290,7 +361,7 @@ function TreeViz({ algorithm }) {
         </div>
       </div>
       <div className="text-[#b0b8c4] text-sm md:text-base">
-        {queue.length > 0 && <p>Queue: [{queue.join(', ')}]</p>}
+        {algorithm === 'bfs-tree' && queue.length > 0 && <p>Queue: [{queue.join(', ')}]</p>}
         {traversalOrder.length > 0 && <p>Traversal Order: [{traversalOrder.join(', ')}]</p>}
       </div>
     </div>
