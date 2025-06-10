@@ -90,6 +90,18 @@ function Home() {
     },
   ];
 
+  const algorithms_Backtracking = [
+
+  ];
+
+  const algorithms_Miscellaneous = [
+    
+  ];
+
+  const algorithms_OS_Scheduling = [
+
+  ];
+
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-4xl font-bold text-center mb-8 text-white">Data Structures & Algorithms Visualization</h1>
@@ -129,8 +141,45 @@ function Home() {
       </div>
       <hr className="my-8 border-gray-600" />
 
-      {/* OS-Scheduling Algorithms */}
-      <h2 className="text-2xl md:text-3xl font-bold mb-6 mt-8 text-[#4a90e2] text-center">OS-Scheduling Algorithms</h2>
+      {/* Backtracking Algorithms */}
+      <h2 className="text-2xl md:text-3xl font-bold mb-6 mt-8 text-[#4a90e2] ">Backtracking Algorithms</h2>
+      <div className="flex justify-center">
+        <div className="bg-[#1e2a44] rounded-lg shadow-md p-6 border border-[#3b4a6b] max-w-md w-full text-center transform transition hover:scale-105 hover:shadow-lg animate-pulse-slow">
+          <svg
+            className="w-10 h-10 mx-auto mb-4 text-[#4a90e2]"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10zm1-15h-2v6H9v2h4V7z" />
+          </svg>
+          <p className="text-xl font-semibold text-[#b0b8c4] mb-2">Coming Soon!</p>
+          <p className="text-sm text-[#8a94a6]">Stay tuned for interactive visualizations of backtracking algorithms like N-Queens, Sudoku Solver, and Maze Solver.</p>
+        </div>
+      </div>
+      <hr className="my-8 border-gray-600" />
+
+      {/* Miscellaneous Problems */}
+      <h2 className="text-2xl md:text-3xl font-bold mb-6 mt-8 text-[#4a90e2] ">Miscellaneous Problems</h2>
+      <div className="flex justify-center">
+        <div className="bg-[#1e2a44] rounded-lg shadow-md p-6 border border-[#3b4a6b] max-w-md w-full text-center transform transition hover:scale-105 hover:shadow-lg animate-pulse-slow">
+          <svg
+            className="w-10 h-10 mx-auto mb-4 text-[#4a90e2]"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10zm1-15h-2v6H9v2h4V7z" />
+          </svg>
+          <p className="text-xl font-semibold text-[#b0b8c4] mb-2">Coming Soon!</p>
+          <p className="text-sm text-[#8a94a6]">Stay tuned for interactive visualizations of some interesting problems like the Domino Effect, Tower of Hanoi, and many more</p>
+      </div>
+    </div>
+      <hr className="my-8 border-gray-600" />
+
+    {/* OS-Scheduling Algorithms */}
+      <h2 className="text-2xl md:text-3xl font-bold mb-6 mt-8 text-[#4a90e2] ">OS-Scheduling Algorithms</h2>
       <div className="flex justify-center">
         <div className="bg-[#1e2a44] rounded-lg shadow-md p-6 border border-[#3b4a6b] max-w-md w-full text-center transform transition hover:scale-105 hover:shadow-lg animate-pulse-slow">
           <svg
