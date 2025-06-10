@@ -83,11 +83,11 @@ function Home() {
       description: 'A linear ordering of vertices in a directed acyclic graph (DAG) such that for every directed edge u -> v, vertex u comes before v in the ordering.',
       link: '/visualization/topological-sort',
     },
-    {
-      title: 'Dijkstra\'s Algorithm',
-      description: 'An algorithm for finding the shortest paths between nodes in a graph, which may represent, for example, road networks.',
-      link: '/visualization/dijkstra',
-    },
+    // {
+    //   title: 'Dijkstra\'s Algorithm',
+    //   description: 'An algorithm for finding the shortest paths between nodes in a graph, which may represent, for example, road networks.',
+    //   link: '/visualization/dijkstra',
+    // },
   ];
 
   const algorithms_Backtracking = [
@@ -95,7 +95,7 @@ function Home() {
   ];
 
   const algorithms_Miscellaneous = [
-    
+
   ];
 
   const algorithms_OS_Scheduling = [
