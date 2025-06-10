@@ -72,6 +72,7 @@
 ![Searching Visulization](./screenshots/searching.png)
 ![Sorting Visualization](./screenshots/sorting.png)
 ![Tree Algorithm](./screenshots/tree.png)
+![Graph Algorithm](./screenshots/graph.png)
 
 ---
 
